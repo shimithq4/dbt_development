@@ -22,6 +22,7 @@ departments as (
 employee_department as (
 
     select
+       'Its all Good' as title,
         employee_id,
         employee_name,
         department_name
