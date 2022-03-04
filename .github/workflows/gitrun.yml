@@ -1,9 +1,9 @@
 name: pr_to_main
 
 on:
-  push:  
-	branches:  
-	  - main
+  pull_request:
+    branches:
+      - main
 env:
   DBT_PROFILES_DIR: ./
 
