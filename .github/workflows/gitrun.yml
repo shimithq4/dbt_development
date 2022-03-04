@@ -1,0 +1,46 @@
+name: pr_to_main
+
+on:
+  push:  
+	branches:  
+	  - main
+env:
+  DBT_PROFILES_DIR: ./
+
+  DBT_DEV_DB: ${{ secrets.DBT_DEV_DB }}
+  DBT_DEV_PASSWORD: ${{ secrets.DBT_DEV_PASSWORD }}
+  DBT_DEV_ROLE: ${{ secrets.DBT_DEV_ROLE }}
+  DBT_DEV_SCHEMA: ${{ secrets.DBT_DEV_SCHEMA }}
+  DBT_DEV_USER: ${{ secrets.DBT_DEV_USER }}
+  DBT_DEV_WH: ${{ secrets.DBT_DEV_WH }}
+
+jobs:
+  pr_to_main:
+    name: pr_to_main
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@master
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.7.x"
+
+      - name: Authenticate using service account
+        run: 'echo "$KEYFILE" > ./dbt-service-account.json'
+        shell: bash
+        env:
+          KEYFILE: ${{secrets.DBT_GOOGLE_BIGQUERY_KEYFILE_PROD}}
+
+      - name: Install dependencies
+        run: |
+          pip install dbt
+          dbt deps --target prod
+      
+      # Add dbt seed or other commands here if needed
+      - name: Run dbt models
+        run: dbt run --target prod
+
+      - name: Test dbt models
+        run: dbt test --target prod

@@ -25,7 +25,8 @@ employee_department as (
        'Its all Good' as title,
         employee_id,
         employee_name,
-        department_name
+        department_name,
+        'thats right' as end
 
     from employees e
     left join departments d
