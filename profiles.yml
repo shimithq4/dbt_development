@@ -7,12 +7,12 @@ default:
     dev: # User-Password config
       type: snowflake
       account: dm85224.ca-central-1.aws
-      user: DBT_CLOUD_DEV
-      password: Knowledge#1
-      role: TRANSFORMER_DEV
-      database: DEV
-      warehouse: TRANSFORMING_DEV
-      schema: DBT_SCHEMA 
+      user: {{ env_var('DBT_DEV_USER') }} #DBT_CLOUD_DEV
+      password: {{ env_var('DBT_DEV_PASSWORD') }} #Knowledge#1
+      role: {{ env_var('DBT_DEV_ROLE') }} #TRANSFORMER_DEV
+      database: {{ env_var('DBT_DEV_DB') }} #DEV
+      warehouse: {{ env_var('DBT_DEV_WH') }} #TRANSFORMING_DEV
+      schema: {{ env_var('DBT_DEV_SCHEMA') }} #DBT_SCHEMA 
       threads: 2
       client_session_keep_alive: False
 
