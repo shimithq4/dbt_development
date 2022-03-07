@@ -1,4 +1,4 @@
-name: 'snowplow_web_project'
+name: 'snowplow_web'
 version: '0.5.1'
 config-version: 2
 
@@ -66,7 +66,7 @@ on-run-end:
 # Tag 'snowplow_web_incremental' allows snowplow_incremental_post_hook to identify Snowplow models
 # and add their last sucessfull collector_tstamp to the manifest.
 models:
-  snowplow_web_project:
+  snowplow_web:
     +materialized: view
     +bind: false
     base:
@@ -75,6 +75,10 @@ models:
       scratch:
         +schema: "scratch"
         +tags: "scratch"
+        bigquery:
+          enabled: "{{ target.type == 'bigquery' | as_bool() }}"
+        default:
+          enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
         snowflake:
           enabled: "{{ target.type == 'snowflake' | as_bool() }}"
     page_views:
@@ -83,6 +87,10 @@ models:
       scratch:
         +schema: "scratch"
         +tags: "scratch"
+        bigquery:
+          enabled: "{{ target.type == 'bigquery' | as_bool() }}"
+        default:
+          enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
         snowflake:
           enabled: "{{ target.type == 'snowflake' | as_bool() }}"
     sessions:
