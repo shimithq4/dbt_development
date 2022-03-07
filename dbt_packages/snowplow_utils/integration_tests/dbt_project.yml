@@ -1,0 +1,105 @@
+name: 'snowplow_utils_integration_tests'
+version: '0.6.0'
+config-version: 2
+
+profile: 'integration_tests'
+
+source-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+data-paths: ["data"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+    - "target"
+    - "dbt_modules"
+    - "dbt_packages"
+
+# test_get_successful_models requires the run_results object which is only present on run-end
+on-run-end: "{{ test_get_successful_models(enabled=var('enabled_test_get_successful_models', false)) }}"
+
+vars:
+  snowplow_utils_integration_tests:
+    # Disables compiler errors during testing. Returns error message string instead, which we can test against.
+    snowplow__disable_errors: true 
+
+models:
+  snowplow_utils_integration_tests:
+    +schema: "snplw_utils_int_tests"
+    materializations:
+      snowflake_delete_insert:
+        enabled: "{{ target.type == 'snowflake' | as_bool() }}"
+    utils:
+      bigquery:
+        enabled: "{{ target.type == 'bigquery' | as_bool() }}"
+
+tests:
+  snowplow_utils_integration_tests:
+    materializations:
+      snowflake_delete_insert:
+        enabled: "{{ target.type == 'snowflake' | as_bool() }}"
+    utils:
+      bigquery:
+        enabled: "{{ target.type == 'bigquery' | as_bool() }}"
+
+
+seeds:
+  +quote_columns: false
+  snowplow_utils_integration_tests:
+    +schema: "snplw_utils_int_tests"
+
+    incremental_hooks:
+
+      data_get_incremental_manifest_status:
+        +column_types:
+          last_success: timestamp
+      data_get_incremental_manifest_status_expected:
+        +column_types:
+          min_last_success: timestamp
+          max_last_success: timestamp
+
+      data_get_run_limits:
+        +column_types:
+          min_last_success: timestamp
+          max_last_success: timestamp
+          start_date: date
+          lower_limit: timestamp
+          upper_limit: timestamp
+
+      data_update_incremental_manifest_table:
+        +column_types:
+          is_in_manifest: boolean
+          last_success: timestamp
+          collector_tstamp: timestamp
+          expected_last_success: timestamp
+
+    materializations:
+      data_snowplow_incremental:
+        +column_types:
+          run: integer
+          id: integer
+          start_tstamp: timestamp
+      default:
+        enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
+        data_snowplow_incremental_expected:
+          +column_types:
+            id: integer
+            start_tstamp: timestamp
+        data_snowplow_incremental_w_lookback_disabled_expected:
+          +column_types:
+            id: integer
+            start_tstamp: timestamp
+      bigquery:
+        enabled: "{{ target.type == 'bigquery' | as_bool() }}"
+        data_snowplow_incremental_expected:
+          +column_types:
+            id: integer
+            start_tstamp: timestamp
+        data_snowplow_incremental_w_lookback_disabled_expected:
+          +column_types:
+            id: integer
+            start_tstamp: timestamp
+      snowflake:
+        enabled: "{{ target.type == 'snowflake' | as_bool() }}"
