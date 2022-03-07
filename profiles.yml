@@ -1,0 +1,19 @@
+config:
+  send_anonymous_usage_stats: False
+
+default:
+  outputs:
+
+    dev: # User-Password config
+      type: snowflake
+      account: jh16232.us-east-1
+      user: shimithm #"{{ env_var('DBT_DEV_USER') }}"
+      password:  #"{{ env_var('DBT_DEV_PASSWORD') }}"
+      role: DATA_DEVELOPER #"{{ env_var('DBT_DEV_ROLE') }}"
+      database: FS_OWNRSHP_TEST_SHIMITH #"{{ env_var('DBT_DEV_DB') }}"
+      warehouse: SF_DEV #"{{ env_var('DBT_DEV_WH') }}"
+      schema: ATOMIC #"{{ env_var('DBT_DEV_SCHEMA') }}"
+      threads: 2
+      client_session_keep_alive: False
+
+  target: dev
