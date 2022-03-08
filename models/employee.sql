@@ -8,3 +8,5 @@ union
 select 4 as id,'Milan' as name, 30 as deptno)
 
 select * from emp
+
+
