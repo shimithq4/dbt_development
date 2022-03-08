@@ -7,7 +7,7 @@ default:
     dev: # User-Password config
       type: snowflake
       account: jh16232.us-east-1
-      user: shimithm #"{{ env_var('DBT_DEV_USER') }}"
+      user: "{{ env_var('DBT_DEV_USER') }}"
       password: "{{ env_var('DBT_DEV_PASSWORD') }}"
       role: "{{ env_var('DBT_DEV_ROLE') }}"
       database: "{{ env_var('DBT_DEV_DB') }}"

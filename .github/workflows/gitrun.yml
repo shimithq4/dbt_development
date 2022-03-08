@@ -7,15 +7,6 @@ name: push_to_main
 on:
   schedule:
     - cron: '*/5 * * * *'
-env:
-  DBT_PROFILES_DIR: ./
-
-  DBT_DEV_DB: ${{ secrets.DBT_DB_DEV }}
-  DBT_DEV_PASSWORD: ${{ secrets.DBT_PASSWORD_DEV }}
-  DBT_DEV_ROLE: ${{ secrets.DBT_ROLE_DEV }}
-  DBT_DEV_SCHEMA: ${{ secrets.DBT_SCHEMA_DEV }}
-  DBT_DEV_USER: ${{ secrets.DBT_USER_DEV }}
-  DBT_DEV_WH: ${{ secrets.DBT_WH_DEV }}
 
 jobs:
   push_to_main:
@@ -34,7 +25,14 @@ jobs:
         run: 'echo "$KEYFILE" > ./dbt-service-account.json'
         shell: bash
         env:
-          KEYFILE: ${{secrets.DBT_GOOGLE_BIGQUERY_KEYFILE_PROD}}
+          DBT_PROFILES_DIR: ./
+
+          DBT_DEV_DB: ${{ secrets.DBT_DB_DEV }}
+          DBT_DEV_PASSWORD: ${{ secrets.DBT_PASSWORD_DEV }}
+          DBT_DEV_ROLE: ${{ secrets.DBT_ROLE_DEV }}
+          DBT_DEV_SCHEMA: ${{ secrets.DBT_SCHEMA_DEV }}
+          DBT_DEV_USER: ${{ secrets.DBT_USER_DEV }}
+          DBT_DEV_WH: ${{ secrets.DBT_WH_DEV }}
 
       - name: Install dependencies
         run: |
