@@ -8,6 +8,16 @@ on:
   schedule:
     - cron: '*/5 * * * *'
 
+env:
+  DBT_PROFILES_DIR: ./
+
+  DBT_DEV_DB: "FS_OWNRSHP_TEST_SHIMITH"
+  DBT_DEV_PASSWORD: ${{ secrets.DBT_PASSWORD_DEV }}
+  DBT_DEV_ROLE: ${{ secrets.DBT_ROLE_DEV }}
+  DBT_DEV_SCHEMA: ${{ secrets.DBT_SCHEMA_DEV }}
+  DBT_DEV_USER: ${{ secrets.DBT_USER_DEV }}
+  DBT_DEV_WH: ${{ secrets.DBT_WH_DEV }}
+
 jobs:
   push_to_main:
     name: main
