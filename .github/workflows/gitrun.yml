@@ -19,7 +19,7 @@ env:
 
 jobs:
   push_to_main:
-    name: push_to_main
+    name: main
     runs-on: ubuntu-latest
 
     steps:
