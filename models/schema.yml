@@ -1,0 +1,34 @@
+
+version: 2
+
+models:
+    - name: department
+      description: "stage view for departments"
+      columns:
+          - name: Deptno
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+          - name: DeptName
+            description: "Department name"
+            tests:
+                - unique
+                - not_null
+
+    - name: employee
+      description: "employee view for the employees"
+      columns:
+          - name: id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+          - name: name
+            description: "employee name"
+            tests:
+                - not_null
+          - name: deptno
+            description: "employees department"
+            tests:
+                - not_null

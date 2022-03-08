@@ -26,7 +26,7 @@ employee_department as (
 
     from employees e
     left join departments d
-    on e.department_id = d.department--_id
+    on e.department_id = d.department_id
 
 )
 
