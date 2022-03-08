@@ -1,21 +1,17 @@
 with employees as (
 
-    select
-        id as employee_id,
+    select id as employee_id,
         name as employee_name,
         Deptno as department_id
-
-    from atomic.employee
+         from  {{ref('employee')}}
 
 ),
 
 departments as (
 
-    select
-        Deptno as department_id,
+    select Deptno as department_id,
         DeptName as department_name
-
-    from atomic.department
+        from  {{ref('department')}}
 
 ),
 
@@ -30,7 +26,7 @@ employee_department as (
 
     from employees e
     left join departments d
-    on e.department_id = d.department_id
+    on e.department_id = d.department--_id
 
 )
 
