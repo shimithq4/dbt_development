@@ -6,7 +6,7 @@ name: push_to_main
   #    - main
 on:
   schedule:
-    - cron: '5 * * * *'
+    - cron: '*/5 * * * *'
 env:
   DBT_PROFILES_DIR: ./
 
