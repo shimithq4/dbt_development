@@ -5,7 +5,7 @@ with employees as (
         name as employee_name,
         Deptno as department_id
 
-    from dbt_schema.employee
+    from atomic.employee
 
 ),
 
@@ -15,7 +15,7 @@ departments as (
         Deptno as department_id,
         DeptName as department_name
 
-    from dbt_schema.department
+    from atomic.department
 
 ),
 
