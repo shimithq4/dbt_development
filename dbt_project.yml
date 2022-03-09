@@ -39,4 +39,6 @@ vars:
 models:
   shimith_project:
       # Applies to all files under models/example/
+    q4_custom_modules:
+      +tags: snowplow_web_incremental
       materialized: view
