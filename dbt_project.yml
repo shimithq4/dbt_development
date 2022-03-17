@@ -42,3 +42,5 @@ models:
     q4_custom_modules:
       +tags: snowplow_web_incremental
       materialized: view
+      
+
